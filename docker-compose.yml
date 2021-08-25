@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  php-8:
+    build: ./docker/php-8/build
+    image: php-8
+    restart: unless-stopped
+    volumes:
+      - ./docker/php-8/config/msmtprc:/etc/msmtprc:ro
+      - ./docker/php-8/config/php.ini:/usr/local/etc/php/conf.d/my.ini:ro
+      - ./docker/php-8/config/www.conf:/usr/local/etc/php-fpm.d/www.conf:ro
+      - ./docker/php-8/composer/:/root/.composer/
+      - ./projects/:/srv/projects/

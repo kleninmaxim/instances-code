@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__DIR__) . '/www/helpers/bootstrap.php';
+require_once __DIR__ . '/helpers/bootstrap.php';
 
 $exchange_id = 'binance';
 

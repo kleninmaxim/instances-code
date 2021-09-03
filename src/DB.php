@@ -46,4 +46,62 @@ class DB
         return $sth->fetchAll(\PDO::FETCH_ASSOC);
 
     }
+
+    public static function insertPing($exchange, $max = null, $min = null, $average = null)
+    {
+
+        $sth = self::$connect->prepare(
+            "SELECT * FROM `region_queue` WHERE `status` = 0"
+        );
+
+        $sth->execute();
+
+        $region = $sth->fetch(\PDO::FETCH_ASSOC);
+
+
+        $sth = self::$connect->prepare("INSERT INTO `ping` 
+                                        (`instance_id`,  
+                                         `region`, 
+                                         `subnet`, 
+                                         `exchange`, 
+                                         `max`, 
+                                         `min`, 
+                                         `average`) 
+                                         VALUES 
+                                        ('{$region['instance_id']}',  
+                                         '{$region['region']}', 
+                                         '{$region['subnet']}', 
+                                         '{$exchange}', 
+                                         '{$max}', 
+                                         '{$min}', 
+                                         '{$average}')
+                                     ");
+
+        $sth->execute();
+
+    }
+
+    public static function updateRegionQueue() 
+    {
+
+        $sth = self::$connect->prepare(
+            "SELECT * FROM `region_queue` WHERE `status` = 0"
+        );
+
+        $sth->execute();
+
+        $region = $sth->fetch(\PDO::FETCH_ASSOC);
+
+
+        $sth = self::$connect->prepare(
+            "UPDATE `region_queue` SET `status` = :status WHERE `instance_id` = :instance_id"
+        );
+
+        $sth->execute([
+            'status' => 1,
+            'instance_id' => $region['instance_id']
+        ]);
+
+    }
+
 }

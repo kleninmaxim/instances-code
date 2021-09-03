@@ -1,7 +1,7 @@
 FROM php:8.0-cli
 
 
-WORKDIR /var/www
+WORKDIR /home/ubuntu/app
 
 COPY . .
 

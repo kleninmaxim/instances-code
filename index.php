@@ -91,7 +91,7 @@ try {
 
 	}
 
-} (Exception $e) {
+} catch (Exception $e) {
 
 	\src\DB::updateRegionQueue();
 

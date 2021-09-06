@@ -1,91 +1,99 @@
 <?php
 
-require_once __DIR__ . '/helpers/bootstrap.php';
+try {
 
-$exchanges = \ccxt\Exchange::$exchanges;
+	require_once __DIR__ . '/helpers/bootstrap.php';
 
-$qty_symbols = 10;
+	$exchanges = \ccxt\Exchange::$exchanges;
 
-foreach ($exchanges as $key => $exchange) {
+	$qty_symbols = 10;
 
-    $exchange_class = "\\ccxt\\$exchange";
+	foreach ($exchanges as $key => $exchange) {
 
-	echo 'Exchange start: ' . $exchange . PHP_EOL;
+	    $exchange_class = "\\ccxt\\$exchange";
 
-	try {
+		echo 'Exchange start: ' . $exchange . PHP_EOL;
 
-	    $ex = new $exchange_class();
+		try {
 
-	    $ex->load_markets();
+		    $ex = new $exchange_class();
 
-	    date_default_timezone_set('UTC');
+		    $ex->load_markets();
 
-		$symbols = $ex->symbols;
+		    date_default_timezone_set('UTC');
 
-		if (!empty($symbols)) {
+			$symbols = $ex->symbols;
 
-			$symbols = array_slice($symbols, 0, $qty_symbols);
+			if (!empty($symbols)) {
 
-			$all = count($symbols);
+				$symbols = array_slice($symbols, 0, $qty_symbols);
 
-			for ($i = $all; $i < $qty_symbols; $i++) {
-				
-				$symbols[] = $symbols[$i - $all];
+				$all = count($symbols);
 
-			}
-
-		    $times = [];
-
-		    foreach($symbols as $symbol) {
-
-				try {
-
-			        $start = hrtime(true);
-
-			        $ex->fetch_order_book($symbol);
-
-			        $end = hrtime(true);
-
-			        $times[] = ($end - $start) / 1000;
-
-
-		    	} catch (Exception $e) {
-
-					continue;
+				for ($i = $all; $i < $qty_symbols; $i++) {
+					
+					$symbols[] = $symbols[$i - $all];
 
 				}
 
-		    }
+			    $times = [];
 
-		    if (!empty($times)) {
+			    foreach($symbols as $symbol) {
 
-			    $max = max($times);
+					try {
 
-			    $min = min($times);
+				        $start = hrtime(true);
 
-			    $average = array_sum($times) / count($times);
+				        $ex->fetch_order_book($symbol);
 
-			    \src\DB::insertPing($exchange, $max, $min, $average);
+				        $end = hrtime(true);
 
-		    } else {
+				        $times[] = ($end - $start) / 1000;
+
+
+			    	} catch (Exception $e) {
+
+						continue;
+
+					}
+
+			    }
+
+			    if (!empty($times)) {
+
+				    $max = max($times);
+
+				    $min = min($times);
+
+				    $average = array_sum($times) / count($times);
+
+				    \src\DB::insertPing($exchange, $max, $min, $average);
+
+			    } else {
+
+					\src\DB::insertPing($exchange);
+
+				}
+
+			} else {
 
 				\src\DB::insertPing($exchange);
 
 			}
 
-		} else {
+		} catch (Exception $e) {
 
 			\src\DB::insertPing($exchange);
 
 		}
 
-	} catch (Exception $e) {
-
-		\src\DB::insertPing($exchange);
+		echo 'Exchange done: ' . $exchange . PHP_EOL;
 
 	}
 
-	echo 'Exchange done: ' . $exchange . PHP_EOL;
+} (Exception $e) {
+
+	\src\DB::updateRegionQueue();
 
 }
 

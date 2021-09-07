@@ -26,11 +26,11 @@ try {
 
 			if ($ex->markets['BTC/USDT']) {
 
-				$symbols = 'BTC/USDT';
+				$symbols[] = 'BTC/USDT';
 
 			} else {
 
-				$symbols = $symbol[0];
+				$symbols[] = $symbol[0];
 
 			}
 
@@ -47,6 +47,8 @@ try {
 				}
 
 			    $times = [];
+
+			    debug($symbols, true);
 
 			    foreach($symbols as $symbol) {
 

@@ -85,22 +85,10 @@ class DB
     {
 
         $sth = self::$connect->prepare(
-            "SELECT * FROM `region_queue` WHERE `status` = 0"
+            "UPDATE `region_queue` SET `status` = 1"
         );
 
         $sth->execute();
-
-        $region = $sth->fetch(\PDO::FETCH_ASSOC);
-
-
-        $sth = self::$connect->prepare(
-            "UPDATE `region_queue` SET `status` = :status WHERE `instance_id` = :instance_id"
-        );
-
-        $sth->execute([
-            'status' => 1,
-            'instance_id' => $region['instance_id']
-        ]);
 
     }
 

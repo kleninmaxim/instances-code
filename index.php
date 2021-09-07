@@ -20,19 +20,7 @@ try {
 
 		    $ex->load_markets();
 
-		    date_default_timezone_set('UTC');
-
-			$symbol = $ex->symbols;
-
-			if ($ex->markets['BTC/USDT']) {
-
-				$symbols[] = 'BTC/USDT';
-
-			} else {
-
-				$symbols[] = $symbol[0];
-
-			}
+			$symbols = $ex->symbols;
 
 			if (!empty($symbols)) {
 
@@ -52,7 +40,7 @@ try {
 
 					try {
 
-						usleep(500000); // 0.5 секунд
+						usleep(100000); // 0.1 секунд
 
 				        $start = hrtime(true);
 

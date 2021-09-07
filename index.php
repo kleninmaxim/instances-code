@@ -48,8 +48,6 @@ try {
 
 			    $times = [];
 
-			    debug($symbols, true);
-
 			    foreach($symbols as $symbol) {
 
 					try {

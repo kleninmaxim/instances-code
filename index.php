@@ -22,7 +22,17 @@ try {
 
 		    date_default_timezone_set('UTC');
 
-			$symbols = $ex->symbols;
+			$symbol = $ex->symbols;
+
+			if ($ex->markets['BTC/USDT']) {
+
+				$symbols = 'BTC/USDT';
+
+			} else {
+
+				$symbols = $symbol[0];
+
+			}
 
 			if (!empty($symbols)) {
 

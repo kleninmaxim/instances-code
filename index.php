@@ -42,6 +42,8 @@ try {
 
 					try {
 
+						usleep(500000); // 0.5 секунд
+
 				        $start = hrtime(true);
 
 				        $ex->fetch_order_book($symbol);

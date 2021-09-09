@@ -16,7 +16,7 @@ try {
 
 		try {
 
-		    $ex = new $exchange_class();
+		    $ex = new $exchange_class(["enableRateLimit" => false]);
 
 		    $ex->load_markets();
 

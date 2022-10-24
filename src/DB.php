@@ -31,7 +31,7 @@ class DB
     public static function getAllRegions(): bool|array
     {
         $sth = self::$connect->prepare(
-            "SELECT * FROM `regions` WHERE `opt_in_status` = 'opt-in-not-required' OR `opt_in_status` = 'opted-in'"
+            "SELECT * FROM `instances_regions` WHERE `opt_in_status` = 'opt-in-not-required' OR `opt_in_status` = 'opted-in'"
         );
 
         $sth->execute();
@@ -42,15 +42,14 @@ class DB
     public static function insertPing($exchange, $max = null, $min = null, $average = null): void
     {
         $sth = self::$connect->prepare(
-            "SELECT * FROM `region_queue` WHERE `status` = 0"
+            "SELECT * FROM `instances_region_queue` WHERE `status` = 0"
         );
 
         $sth->execute();
 
         $region = $sth->fetch(PDO::FETCH_ASSOC);
 
-
-        $sth = self::$connect->prepare("INSERT INTO `ping` 
+        $sth = self::$connect->prepare("INSERT INTO `instances_ping` 
                                         (`instance_id`,  
                                          `region`, 
                                          `subnet`, 
@@ -74,7 +73,7 @@ class DB
     public static function updateRegionQueue(): void
     {
         $sth = self::$connect->prepare(
-            "UPDATE `region_queue` SET `status` = 1"
+            "UPDATE `instances_region_queue` SET `status` = 1"
         );
 
         $sth->execute();

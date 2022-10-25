@@ -8,7 +8,10 @@ try {
 
 	$qty_symbols = 10;
 
-	foreach (Exchange::$exchanges as $key => $exchange) {
+    $exchanges = Exchange::$exchanges;
+    $diff = ['coinbase'];
+
+    foreach (array_diff($exchanges, $diff) as $key => $exchange) {
 	    $exchange_class = "\\ccxt\\$exchange";
 
 		echo 'Exchange start: ' . $exchange . PHP_EOL;

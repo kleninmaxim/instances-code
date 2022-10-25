@@ -1,5 +1,5 @@
 {
     "require": {
-        "ccxt/ccxt": "^2.0"
+        "ccxt/ccxt": "1.94.7"
     }
 }

@@ -9,7 +9,7 @@ try {
 	$qty_symbols = 10;
 
     $exchanges = Exchange::$exchanges;
-    $diff = ['coinbase'];
+    $diff = ['coinbase', 'yobit'];
 
     foreach (array_diff($exchanges, $diff) as $key => $exchange) {
 	    $exchange_class = "\\ccxt\\$exchange";

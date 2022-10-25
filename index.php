@@ -45,7 +45,6 @@ try {
 			    	} catch (Exception $e) {
 						continue;
 					}
-
 			    }
 
 			    if (!empty($times)) {
@@ -56,7 +55,6 @@ try {
 				    $average = array_sum($times) / count($times);
 
 				    DB::insertPing($exchange, $max, $min, $average);
-
 			    } else {
 					DB::insertPing($exchange);
 				}

@@ -42,7 +42,7 @@ try {
 				        $end = hrtime(true);
 
 				        $times[] = ($end - $start) / 1000;
-			    	} catch (Exception $e) {
+			    	} catch (Throwable $e) {
 						continue;
 					}
 			    }
@@ -63,15 +63,15 @@ try {
 				DB::insertPing($exchange);
 			}
 
-		} catch (Exception $e) {
+		} catch (Throwable $e) {
 			DB::insertPing($exchange);
 		}
 
 		echo 'Exchange done: ' . $exchange . PHP_EOL;
 	}
 
-} catch (Exception $e) {
-    echo '[' . date('Y-m-d H:i:s') . '] Get exception: ' . $e->getMessage() . PHP_EOL;
+} catch (Throwable $e) {
+    echo '[' . date('Y-m-d H:i:s') . '] Get Throwable: ' . $e->getMessage() . PHP_EOL;
 	DB::updateRegionQueue();
 }
 
